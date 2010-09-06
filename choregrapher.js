@@ -30,10 +30,7 @@ function choreograph(req, res)
 {
   for(var route in routes[req.method])
     if(route.path.match(req.url))
-    {
-      route.call.apply(this, arguments);
-      break;
-    }
+      return route.call.apply(this, arguments);
 }
 
 var routes = {}; //dictionary of arrays of routes
