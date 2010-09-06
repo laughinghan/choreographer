@@ -18,6 +18,9 @@ Dirt simple:
     });
     serve(http).listen(80);
 
+As in Sinatra, the callback for the first route to match a request is invoked,
+and routes are matched in the order they are defined.
+
 If you want to avoid polluting the global namespace:
 
     var http = require('http'), router = require('choreographer');
