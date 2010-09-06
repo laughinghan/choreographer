@@ -41,10 +41,17 @@ If you want a server that does more than route:
       //serve stuff
     }).listen(80);
 
+Easy to use.
+
 Understanding The Code
 ----------------------
 
 All the exports are at the beginning, all the functions are declarations.
+
+The entire architecture is designed around the philosophy of being so simple
+it obviously has no bugs, rather than so complicated it has no obvious bugs.
+
+Easy to understand.
 
 Open-Source License
 -------------------
