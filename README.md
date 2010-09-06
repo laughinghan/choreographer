@@ -9,33 +9,35 @@ Usage
 
 Dirt simple:
 
+    var http = require('http');
     require('choreographer').exportTo(this);
     get('/', function(request, response)
     {
       response.writeHead(200, {'Content-Type': 'text/plain'});
       response.end('Hello World\n');
     });
-    serve(require('http')).listen(80);
+    serve(http).listen(80);
 
 If you want to avoid polluting the global namespace:
 
-    var router = require('choreographer');
+    var http = require('http'), router = require('choreographer');
     router.get('/', function(request, response)
     {
       response.writeHead(200, {'Content-Type': 'text/plain'});
       response.end('Hello World\n');
     });
-    router.serve(require('http')).listen(80);
+    router.serve(http).listen(80);
 
 If you want a server that does more than route:
 
+    var http = require('http');
     require('choreographer').exportTo(this);
     get('/', function(request, response)
     {
       response.writeHead(200, {'Content-Type': 'text/plain'});
       response.end('Hello World\n');
     });
-    require('http').createServer(function(req, res)
+    http.createServer(function(req, res)
     {
       choreograph.apply(this, arguments);
       //serve stuff
