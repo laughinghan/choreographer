@@ -11,6 +11,8 @@
 exports.exportTo = exportTo;
 exports.serve = serve;
 exports.choreograph = choreograph;
+exports.setNotFound = setNotFound;
+exports.resetNotFound = resetNotFound;
 
 //export the Choreographer module's API to `api`
 function exportTo(api)
@@ -31,7 +33,29 @@ function choreograph(req, res)
   for(var route in routes[req.method])
     if(route.path.match(req.url))
       return route.call.apply(this, arguments);
+  //route not found
+  notFound.apply(this, arguments);
 }
+
+//handles requests where no matching route is found
+var notFound = defaultNotFound;
+
+function setNotFound(fn)
+{
+  notFound = fn;
+}
+function resetNotFound(fn)
+{
+  notFound = defaultNotFound;
+}
+function defaultNotFound(req, res)
+{
+  res.writeHead(404, 'Not Found', { 'Content-Type': 'text/html' });
+  res.end('<html><head><title>Error 404: Not Found</title></head><body>' +
+    '<h1>Error 404: Not Found</h1>' +
+    '<p>Cannot ' + req.method + ' ' + req.url + '</body></html>');
+}
+
 
 var routes = {}; //dictionary of arrays of routes
 
