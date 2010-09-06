@@ -25,7 +25,7 @@ If you want to avoid polluting the global namespace:
       response.writeHead(200, {'Content-Type': 'text/plain'});
       response.end('Hello World\n');
     });
-    serve(require('http')).listen(80);
+    router.serve(require('http')).listen(80);
 
 If you want a server that does more than route:
 
