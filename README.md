@@ -1,10 +1,11 @@
 Please note that this is an alpha version, so bugs and unimplemented features
 are all over the place.
 
+(This only being actively tested Node.js v0.2.0, but there's no reason it
+wouldn't work on anything else.)
+
 Usage
 -----
-
-(Note: Only been tested on Node.js v0.2.0.)
 
 Dirt simple:
 
