@@ -21,7 +21,7 @@ Dirt simple:
 As in Sinatra, the callback for the first route to match a request is invoked,
 and routes are matched in the order they are defined.
 
-If you want to avoid polluting the global namespace:
+If you want to avoid polluting the global namespace, don't call `.exportTo()`:
 
     var http = require('http'), router = require('choreographer');
     router.get('/', function(request, response)
@@ -31,7 +31,7 @@ If you want to avoid polluting the global namespace:
     });
     router.serve(http).listen(80);
 
-If you want a server that does more than route:
+`serve` is just a shortcut, so if you want a server that does more than route:
 
     var http = require('http');
     require('choreographer').exportTo(this);
@@ -42,8 +42,9 @@ If you want a server that does more than route:
     });
     http.createServer(function(req, res)
     {
-      choreograph.apply(this, arguments);
       //serve stuff
+      choreograph.apply(this, arguments);
+      //serve more stuff
     }).listen(80);
 
 Easy to use.
