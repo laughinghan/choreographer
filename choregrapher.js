@@ -26,10 +26,10 @@ function serve(http)
 }
 
 //to be passed to `require('http').createServer()`
-function choreograph(request, response)
+function choreograph(req, res)
 {
-  for(var route in routes[request.method])
-    if(route.path.match(request.url))
+  for(var route in routes[req.method])
+    if(route.path.match(req.url))
     {
       route.call.apply(this, arguments);
       break;
