@@ -8,9 +8,16 @@
  *
  */
 
+exports.exportTo = exportTo;
 exports.serve = serve;
 exports.choreograph = choreograph;
-exports.exportTo = exportTo;
+
+//export the Choreographer module's API to `api`
+function exportTo(api)
+{
+  for(var method in Object.keys(exports))
+    api[method] = exports[method];
+}
 
 //shortcut for `http.createServer(choreograph)`
 function serve(http)
@@ -27,13 +34,6 @@ function choreograph(request, response)
       route.call.apply(this, arguments);
       break;
     }
-}
-
-//export the Choreographer module's API to `api`
-function exportTo(api)
-{
-  for(var method in Object.keys(exports))
-    api[method] = exports[method];
 }
 
 var routes = {}; //dictionary of arrays of routes
