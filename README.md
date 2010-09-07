@@ -18,7 +18,7 @@ Dirt simple:
     });
     serve(http).listen(80);
 
-As in Sinatra, the callback for the first route to match a request is invoked,
+As in Sinatra, the callback for the first route a request matches is invoked,
 and routes are matched in the order they are defined.
 
 If you want to avoid polluting the global namespace, don't call `.exportTo()`:
