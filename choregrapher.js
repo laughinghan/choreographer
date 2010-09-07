@@ -30,19 +30,23 @@ function serve(http)
 function choreograph(req, res)
 {
   var url = req.url;
-  routes[req.method].forEach(function(route)
+  for(var route in routes[req.method])
   {
+    route = routes[req.method][route];
     var matches = url.match(route);
-    if(matches === null)
-      continue;
-    var match_names = route.matches,
-      params = arguments[arguments.length] = match_names ? {} : [];
-    if(match_names)
-      matches.forEach(function(match, i){ params[match_names[i]] = match; });
-    else
-      matches.forEach(function(match, i){ params[i] = match; });
-    return route.call.apply(this, arguments);
-  });
+    if(matches) //say '/foo/asdf/jkl' has matched '/foo/:bar/:baz'
+    {
+      var match_names = route.match_names, //then match_names is ['bar','baz']
+        params = match_names ? {} : []; //use array if orig. regex (see routes)
+      if(match_names)
+        matches.forEach(function(match, i){ params[match_names[i]] = match; });
+      else
+        matches.forEach(function(match, i){ params[i] = match; });
+      //now params will be {bar: 'asdf', baz: 'jkl'}
+      [].push.call(arguments, params); //arguments becomes [req, res, params]
+      return route.call.apply(this, arguments);
+    }
+  }
   //route not found
   notFound.apply(this, arguments);
 }
@@ -73,18 +77,23 @@ var routes = {}; //dictionary of arrays of routes
   exports[method] =
   function(route, callback)
   {
-    if(route instanceof RegExp)
-      route = new RegExp(route);
+    if(route instanceof RegExp) //if supplied route is already a RegExp,
+      route = new RegExp(route); //just clone it and leave match_names undefined
     else
     {
-      var matches = [];
-      route = new RegExp('^'+String(route).replace(named_routes, function(str, name){
-        matches.push(name);
-        return named_route_group;
-      }));
+      route = new String(route);
+      //get ['bar', 'baz'] from '/foo/:bar/:baz'
+      var match_names = route.match(named_routes).map(function(name){
+        return name.slice(1); //slice off colon
+      });
+      //turn '/foo/:bar/:baz' into /^\/foo\/([^/?#]*)/([^/?#]*)$/
+      route = new RegExp('^' + route.replace(named_routes, named_route_group) +
+        '(?:[?#].*)?$');
     }
+    route.match_names = match_names;
     route.call = callback;
     routes[method].push(route);
   };
 });
-var named_routes = /:([a-z_$][a-z0-9_$]*)/ig, named_route_group = '([a-zA-Z0-9_.~+\-]*)';
+var named_routes = /:([a-z_$][a-z0-9_$]*)/ig, //allow any JavaScript identifier
+  named_route_group = '([^/?#]*)'; //allowed URI segment characters
