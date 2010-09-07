@@ -12,7 +12,6 @@ exports.exportTo = exportTo;
 exports.serve = serve;
 exports.choreograph = choreograph;
 exports.setNotFound = setNotFound;
-exports.resetNotFound = resetNotFound;
 
 //export the Choreographer module's API to `api`
 function exportTo(api)
@@ -54,10 +53,6 @@ var notFound = defaultNotFound;
 function setNotFound(fn)
 {
   notFound = fn;
-}
-function resetNotFound(fn)
-{
-  notFound = defaultNotFound;
 }
 function defaultNotFound(req, res)
 {
