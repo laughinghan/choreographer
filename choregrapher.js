@@ -47,16 +47,12 @@ function choreograph(req, res)
     }
   }
   //route not found
-  notFound.apply(this, arguments);
+  notFoundHandler.apply(this, arguments);
 }
 
 //handles requests where no matching route is found
-var notFound = defaultNotFound;
+var notFoundHandler = defaultNotFound;
 
-function setNotFound(fn)
-{
-  notFound = fn;
-}
 function defaultNotFound(req, res)
 {
   res.writeHead(404, 'Not Found', { 'Content-Type': 'text/html' });
