@@ -8,22 +8,20 @@
  *
  */
 
-exports.exportTo = exportTo;
-exports.serve = serve;
-exports.choreograph = choreograph;
-
 //export the Choreographer module's API to `api`
 function exportTo(api)
 {
   for(var method in exports)
     api[method] = exports[method];
 }
+exports.exportTo = exportTo;
 
 //shortcut for `http.createServer(choreograph)`
 function serve(http)
 {
   return http.createServer(choreograph);
 }
+exports.serve = serve;
 
 //to be passed to `require('http').createServer()`
 function choreograph(req, res)
@@ -49,6 +47,7 @@ function choreograph(req, res)
   //route not found
   notFoundHandler.apply(this, arguments);
 }
+exports.choreograph = choreograph;
 
 //handles requests where no matching route is found
 var notFoundHandler = defaultNotFound;
