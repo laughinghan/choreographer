@@ -23,6 +23,30 @@ function serve(http)
 }
 exports.serve = serve;
 
+var routes = {}; //dictionary of arrays of routes
+
+['HEAD', 'GET', 'POST', 'PUT', 'DELETE']
+.forEach(function(method)
+{
+  routes[method] = [];
+
+  exports[method.toLowerCase()] =
+  exports[method] =
+  function(route, callback) //e.g. router.get('/foo/*',function(req,res,bar){});
+  {
+    if(route instanceof RegExp) //if supplied route is already a RegExp,
+      route = new RegExp(route); //just clone it
+    else //else stringify and interpret as regex where * matches URI segments
+      route = new RegExp('^' + //and everything else matches literally
+        String(route).replace(specialChars, '\\$&').replace('*', '([^/?#]*)')
+      + '(?:[?#].*)?$');
+    route.callback = callback;
+    routes[method].push(route);
+  };
+});
+var specialChars = /[|.+?{}()\[\]^$]/g;
+//special characters that need to be escaped when passed to `RegExp()`
+
 //to be passed to `require('http').createServer()`
 function choreograph(req, res)
 {
@@ -59,27 +83,3 @@ function notFound(handler)
   notFoundHandler = handler;
 }
 exports.notFound = notFound;
-
-var routes = {}; //dictionary of arrays of routes
-
-['HEAD', 'GET', 'POST', 'PUT', 'DELETE']
-.forEach(function(method)
-{
-  routes[method] = [];
-
-  exports[method.toLowerCase()] =
-  exports[method] =
-  function(route, callback) //e.g. router.get('/foo/*',function(req,res,bar){});
-  {
-    if(route instanceof RegExp) //if supplied route is already a RegExp,
-      route = new RegExp(route); //just clone it
-    else //else stringify and interpret as regex where * matches URI segments
-      route = new RegExp('^' + //and everything else matches literally
-        String(route).replace(specialChars, '\\$&').replace('*', '([^/?#]*)')
-      + '(?:[?#].*)?$');
-    route.callback = callback;
-    routes[method].push(route);
-  };
-});
-var specialChars = /[|.+?{}()\[\]^$]/g;
-//special characters that need to be escaped when passed to `RegExp()`
