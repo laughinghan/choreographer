@@ -9,22 +9,43 @@
  */
 
 //export the Choreographer module's API to `api`
-function exportTo(api)
+exports.exportTo = function(api)
 {
   for(var method in exports)
     api[method] = exports[method];
-}
-exports.exportTo = exportTo;
+};
 
 //shortcut for `http.createServer(choreograph)`
-function serve(http)
+exports.serve = function(http)
 {
   return http.createServer(choreograph);
-}
-exports.serve = serve;
+};
 
-var routes = {}; //dictionary of arrays of routes
+//to be passed to `require('http').createServer()`
+exports.choreograph = function(req, res)
+{
+  var url = req.url, _routes = routes[req.method];
+  for(var route in _routes)
+  {
+    route = _routes[route]; //I don't want the damn index!
 
+    var matches = url.match(route);
+    if(matches) //say '/foo/asdf/jkl' has matched '/foo/*/*'
+    {
+      //then turn arguments from [req,res] into [req,res,'asdf','jkl']
+      __Array_push.apply(arguments, matches);
+      return route.callback.apply(this, arguments);
+    }
+  }
+  //route not found: no route has matched and hence returned yet
+  notFoundHandler.apply(this, arguments);
+};
+var __Array_push = [].push;
+
+//dictionary of arrays of routes
+var routes = {};
+
+//routing API
 ['HEAD', 'GET', 'POST', 'PUT', 'DELETE']
 .forEach(function(method)
 {
@@ -44,42 +65,21 @@ var routes = {}; //dictionary of arrays of routes
     routes[method].push(route);
   };
 });
+//special characters that need to be escaped when passed to `RegExp()`, lest
+//they be interpreted as pattern-matching:
 var specialChars = /[|.+?{}()\[\]^$]/g;
-//special characters that need to be escaped when passed to `RegExp()`
 
-//to be passed to `require('http').createServer()`
-function choreograph(req, res)
+//404 is a route too
+exports.notFound = function(handler)
 {
-  var url = req.url, _routes = routes[req.method];
-  for(var route in _routes)
-  {
-    route = _routes[route];
-    var matches = url.match(route);
-    if(matches) //say '/foo/asdf/jkl' has matched '/foo/*/*'
-    {
-      __Array_push.apply(arguments, matches);
-        //then arguments is now [req,res,'asdf','jkl']
-      return route.callback.apply(this, arguments);
-    }
-  }
-  //route not found
-  notFoundHandler.apply(this, arguments);
-}
-var __Array_push = [].push;
-exports.choreograph = choreograph;
+  notFoundHandler = handler;
+};
 
 //handles requests where no matching route is found
-var notFoundHandler = defaultNotFound;
-
-function defaultNotFound(req, res)
+var notFoundHandler = function(req, res)
 {
   res.writeHead(404, 'Not Found', { 'Content-Type': 'text/html' });
   res.end('<html><head><title>Error 404: Not Found</title></head><body>' +
     '<h1>Error 404: Not Found</h1>' +
     '<p>Cannot ' + req.method + ' ' + req.url + '</body></html>');
-}
-function notFound(handler)
-{
-  notFoundHandler = handler;
-}
-exports.notFound = notFound;
+};
