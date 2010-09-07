@@ -11,11 +11,13 @@ Dirt simple:
 
     var http = require('http');
     require('choreographer').exportTo(this);
-    get('/', function(request, response)
+    
+    get('/chat/:room/messages', function(request, response, params)
     {
       response.writeHead(200, {'Content-Type': 'text/plain'});
-      response.end('Hello World\n');
+      response.end('No messages in ' + params.room + '.\n');
     });
+    
     serve(http).listen(80);
 
 As in Sinatra, the callback for the first route a request matches is invoked,
@@ -24,22 +26,25 @@ and routes are matched in the order they are defined.
 If you want to avoid polluting the global namespace, don't call `.exportTo()`:
 
     var http = require('http'), router = require('choreographer');
-    router.get('/', function(request, response)
+    
+    router.post('/chat/:room/message', function(request, response, params)
     {
       response.writeHead(200, {'Content-Type': 'text/plain'});
-      response.end('Hello World\n');
+      response.end('Posted message to ' + params.room + '.\n');
     });
+    
     router.serve(http).listen(80);
 
 `serve` is just a shortcut, so if you want a server that does more than route:
 
     var http = require('http');
     require('choreographer').exportTo(this);
-    get('/', function(request, response)
-    {
-      response.writeHead(200, {'Content-Type': 'text/plain'});
-      response.end('Hello World\n');
+    
+    get('/', function(req, res){
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Hello world!');
     });
+    
     http.createServer(function(req, res)
     {
       //serve stuff
