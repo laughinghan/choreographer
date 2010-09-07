@@ -74,7 +74,8 @@ Easy to use.
 Understanding The Code
 ----------------------
 
-All the exports are at the beginning, all the functions are declarations.
+The code is pretty simple: starts out with shortcuts, then the very simple
+routing server, and finally the routes.
 
 The entire architecture is designed around the philosophy of being so simple
 it obviously has no bugs, rather than so complicated it has no obvious bugs.
