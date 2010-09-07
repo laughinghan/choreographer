@@ -11,7 +11,6 @@
 exports.exportTo = exportTo;
 exports.serve = serve;
 exports.choreograph = choreograph;
-exports.setNotFound = setNotFound;
 
 //export the Choreographer module's API to `api`
 function exportTo(api)
@@ -65,6 +64,11 @@ function defaultNotFound(req, res)
     '<h1>Error 404: Not Found</h1>' +
     '<p>Cannot ' + req.method + ' ' + req.url + '</body></html>');
 }
+function notFound(handler)
+{
+  notFoundHandler = handler;
+}
+exports.notFound = notFound;
 
 var routes = {}; //dictionary of arrays of routes
 
