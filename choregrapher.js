@@ -17,7 +17,7 @@ exports.resetNotFound = resetNotFound;
 //export the Choreographer module's API to `api`
 function exportTo(api)
 {
-  for(var method in Object.keys(exports))
+  for(var method in exports)
     api[method] = exports[method];
 }
 
@@ -30,9 +30,9 @@ function serve(http)
 //to be passed to `require('http').createServer()`
 function choreograph(req, res)
 {
-  for(var route in routes[req.method])
     if(route.path.match(req.url))
       return route.call.apply(this, arguments);
+  routes[req.method].forEach(function(route)
   //route not found
   notFound.apply(this, arguments);
 }
