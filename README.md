@@ -12,10 +12,23 @@ Dirt simple:
     var http = require('http');
     require('choreographer').exportTo(this);
     
-    get('/chat/:room/messages', function(request, response, params)
+    get('/chatroom/*/messages', function(request, response, room)
     {
       response.writeHead(200, {'Content-Type': 'text/plain'});
-      response.end('No messages in ' + params.room + '.\n');
+      response.end('No messages in ' + room + '.\n');
+    });
+    
+    post('/chatroom/*/message', function(request, response, room)
+    {
+      response.writeHead(200, {'Content-Type': 'text/plain'});
+      response.end('Posted message to ' + room + '.\n');
+    });
+    
+    notFound(function(request, response)
+    {
+      response.writeHead(404, {'Content-Type': 'text/plain'});
+      response.end('404: This server is just a skeleton for a chat server.\n' +
+        'I\'m afraid ' + request.url + ' cannot be found here.\n');
     });
     
     serve(http).listen(80);
@@ -26,12 +39,13 @@ order they are defined).
 
 If you want to avoid polluting the global namespace, don't call `.exportTo()`:
 
-    var http = require('http'), router = require('choreographer');
+    var http = require('http'),
+      router = require('choreographer');
     
-    router.post('/chat/:room/message', function(request, response, params)
+    router.get('/hw*', function(req, res, hwNum)
     {
-      response.writeHead(200, {'Content-Type': 'text/plain'});
-      response.end('Posted message to ' + params.room + '.\n');
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Homework ' + hwNum + ' isn\'t up yet.\n');
     });
     
     router.serve(http).listen(80);
@@ -41,9 +55,11 @@ If you want to avoid polluting the global namespace, don't call `.exportTo()`:
     var http = require('http');
     require('choreographer').exportTo(this);
     
-    get('/', function(req, res){
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end('Hello world!');
+    notFound(function(req, res)
+    {
+      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.end('Error 404: Not Found\n' +
+        'Actually nothing can be found on this server. It\'s just an example.');
     });
     
     http.createServer(function(req, res)
