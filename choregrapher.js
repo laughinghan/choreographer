@@ -26,27 +26,22 @@ exports.serve = serve;
 //to be passed to `require('http').createServer()`
 function choreograph(req, res)
 {
-  var url = req.url;
-  for(var route in routes[req.method])
+  var url = req.url, _routes = routes[req.method];
+  for(var route in _routes)
   {
-    route = routes[req.method][route];
+    route = _routes[route];
     var matches = url.match(route);
-    if(matches) //say '/foo/asdf/jkl' has matched '/foo/:bar/:baz'
+    if(matches) //say '/foo/asdf/jkl' has matched '/foo/*/*'
     {
-      var match_names = route.match_names, //then match_names is ['bar','baz']
-        params = match_names ? {} : []; //use array if orig. regex (see routes)
-      if(match_names)
-        matches.forEach(function(match, i){ params[match_names[i]] = match; });
-      else
-        matches.forEach(function(match, i){ params[i] = match; });
-      //now params will be {bar: 'asdf', baz: 'jkl'}
-      [].push.call(arguments, params); //arguments becomes [req, res, params]
-      return route.call.apply(this, arguments);
+      __Array_push.apply(arguments, matches);
+        //then arguments is now [req,res,'asdf','jkl']
+      return route.callback.apply(this, arguments);
     }
   }
   //route not found
   notFoundHandler.apply(this, arguments);
 }
+var __Array_push = [].push;
 exports.choreograph = choreograph;
 
 //handles requests where no matching route is found
@@ -74,25 +69,17 @@ var routes = {}; //dictionary of arrays of routes
 
   exports[method.toLowerCase()] =
   exports[method] =
-  function(route, callback)
+  function(route, callback) //e.g. router.get('/foo/*',function(req,res,bar){});
   {
     if(route instanceof RegExp) //if supplied route is already a RegExp,
-      route = new RegExp(route); //just clone it and leave match_names undefined
-    else
-    {
-      route = new String(route);
-      //get ['bar', 'baz'] from '/foo/:bar/:baz'
-      var match_names = route.match(named_routes).map(function(name){
-        return name.slice(1); //slice off colon
-      });
-      //turn '/foo/:bar/:baz' into /^\/foo\/([^/?#]*)/([^/?#]*)$/
-      route = new RegExp('^' + route.replace(named_routes, named_route_group) +
-        '(?:[?#].*)?$');
-    }
-    route.match_names = match_names;
-    route.call = callback;
+      route = new RegExp(route); //just clone it
+    else //else stringify and interpret as regex where * matches URI segments
+      route = new RegExp('^' + //and everything else matches literally
+        String(route).replace(specialChars, '\\$&').replace('*', '([^/?#]*)')
+      + '(?:[?#].*)?$');
+    route.callback = callback;
     routes[method].push(route);
   };
 });
-var named_routes = /:([a-z_$][a-z0-9_$]*)/ig, //allow any JavaScript identifier
-  named_route_group = '([^/?#]*)'; //allowed URI segment characters
+var specialChars = /[|.+?{}()\[\]^$]/g;
+//special characters that need to be escaped when passed to `RegExp()`
