@@ -65,7 +65,7 @@ If you want to avoid polluting the global namespace, don't call `.exportTo()`:
     http.createServer(function(req, res)
     {
       //serve stuff
-      choreograph.apply(this, arguments);
+      choreography.apply(this, arguments);
       //serve more stuff
     }).listen(80);
 

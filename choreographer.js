@@ -15,14 +15,14 @@ exports.exportTo = function(api)
     api[method] = exports[method];
 };
 
-//shortcut for `http.createServer(choreograph)`
+//shortcut for `http.createServer(choreography)`
 exports.serve = function(http)
 {
-  return http.createServer(choreograph);
+  return http.createServer(exports.choreography);
 };
 
 //to be passed to `require('http').createServer()`
-exports.choreograph = function(req, res)
+exports.choreography = function(req, res)
 {
   var url = req.url, _routes = routes[req.method];
   for(var route in _routes)
