@@ -32,6 +32,8 @@ Dirt simple:
     
     http.createServer(serve).listen(80);
 
+That's it! That's the entire API, simple and easy to use.
+
 As in Sinatra, routes are first-come, first-serve (only the callback for the
 first route to be matched by a request is invoked, and routes are matched in the
 order they are defined).
@@ -46,18 +48,14 @@ Notice that `serve` is just an event listener for the `request` event on
       //do more stuff
     }).listen(80);
 
-Easy to use.
-
 Understanding The Code
 ----------------------
 
-The code is pretty simple: starts out with shortcuts, then the very simple
-routing server, and finally the routes.
+The code is just as simple: starts out with shortcuts, then a basic routing
+server, and finally the routes. Lightweight and easy to understand.
 
 The entire architecture is designed around the philosophy of being so simple
 it obviously has no bugs, rather than so complicated it has no obvious bugs.
-
-Easy to understand.
 
 Open-Source License
 -------------------
