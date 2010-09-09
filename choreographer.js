@@ -9,10 +9,10 @@
  */
 
 //creates router
-exports.serve = function()
+exports.createServer = function()
 {
   //routing server, to be passed to `require('http').createServer()`
-  var serve = function(req, res)
+  var server = require('http').createServer(function(req, res)
   {
     var url = req.url, _routes = routes[req.method];
     for(var route in _routes)
@@ -29,7 +29,7 @@ exports.serve = function()
     }
     //route not found: no route has matched and hence returned yet
     notFoundHandler.apply(this, arguments);
-  };
+  });
 
   //dictionary of arrays of routes
   var routes = {};
@@ -40,7 +40,7 @@ exports.serve = function()
   {
     routes[method] = [];
 
-    serve[method.toLowerCase()] =
+    server[method.toLowerCase()] =
     function(route, callback) //e.g. router.get('/foo/*',function(req,res,bar){});
     {
       if(route instanceof RegExp) //if supplied route is already a RegExp,
@@ -58,7 +58,7 @@ exports.serve = function()
   var specialChars = /[|.+?{}()\[\]^$]/g;
 
   //404 is a route too
-  serve.notFound = function(handler)
+  server.notFound = function(handler)
   {
     notFoundHandler = handler;
   };
@@ -66,9 +66,9 @@ exports.serve = function()
   //handles requests where no matching route is found
   var notFoundHandler = defaultNotFound;
 
-  return serve;
+  return server;
 };
-var __Array_push = [].push; //Array.prototype.push, used by `serve()`
+var __Array_push = [].push; //Array.prototype.push, used by routing server
 
 function defaultNotFound(req, res)
 {

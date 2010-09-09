@@ -9,28 +9,28 @@ Usage
 
 Dirt simple:
 
-    var http = require('http'), serve = require('choreographer').serve();
+    var server = require('choreographer').createServer();
     
-    serve.get('/chatroom/*/messages', function(request, response, room)
+    server.get('/chatroom/*/messages', function(request, response, room)
     {
       response.writeHead(200, {'Content-Type': 'text/plain'});
       response.end('No messages in ' + room + '.\n');
     });
     
-    serve.post('/chatroom/*/message', function(request, response, room)
+    server.post('/chatroom/*/message', function(request, response, room)
     {
       response.writeHead(200, {'Content-Type': 'text/plain'});
       response.end('Posted message to ' + room + '.\n');
     });
     
-    serve.notFound(function(request, response)
+    server.notFound(function(request, response)
     {
       response.writeHead(404, {'Content-Type': 'text/plain'});
       response.end('404: This server is just a skeleton for a chat server.\n' +
         'I\'m afraid ' + request.url + ' cannot be found here.\n');
     });
     
-    http.createServer(serve).listen(80);
+    server.listen(80);
 
 As in Sinatra, routes are first-come, first-serve (only the callback for the
 first route to be matched by a request is invoked, and routes are matched in the
