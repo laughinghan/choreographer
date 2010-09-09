@@ -9,10 +9,10 @@
  */
 
 //creates router
-exports.serve = function()
+exports.server = function()
 {
   //routing server, to be passed to `require('http').createServer()`
-  var serve = function(req, res)
+  var server = function(req, res)
   {
     var url = req.url, _routes = routes[req.method];
     for(var route in _routes)
@@ -40,8 +40,8 @@ exports.serve = function()
   {
     routes[method] = [];
 
-    //e.g. serve.get('/foo/*',function(req,res,bar){});
-    serve[method.toLowerCase()] = function(route, callback)
+    //e.g. server.get('/foo/*',function(req,res,bar){});
+    server[method.toLowerCase()] = function(route, callback)
     {
       if(route instanceof RegExp) //if supplied route is already a RegExp,
         route = new RegExp(route); //just clone it
@@ -58,7 +58,7 @@ exports.serve = function()
   var specialChars = /[|.+?{}()\[\]^$]/g;
 
   //404 is a route too
-  serve.notFound = function(handler)
+  server.notFound = function(handler)
   {
     notFoundHandler = handler;
   };
@@ -66,9 +66,9 @@ exports.serve = function()
   //handles requests where no matching route is found
   var notFoundHandler = defaultNotFound;
 
-  return serve;
+  return server;
 };
-var __Array_push = [].push; //Array.prototype.push, used by `serve()`
+var __Array_push = [].push; //Array.prototype.push, used by `server()`
 
 function defaultNotFound(req, res)
 {
