@@ -40,8 +40,8 @@ exports.serve = function()
   {
     routes[method] = [];
 
-    serve[method.toLowerCase()] =
-    function(route, callback) //e.g. router.get('/foo/*',function(req,res,bar){});
+    //e.g. serve.get('/foo/*',function(req,res,bar){});
+    serve[method.toLowerCase()] = function(route, callback)
     {
       if(route instanceof RegExp) //if supplied route is already a RegExp,
         route = new RegExp(route); //just clone it
