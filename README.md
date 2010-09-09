@@ -36,6 +36,16 @@ As in Sinatra, routes are first-come, first-serve (only the callback for the
 first route to be matched by a request is invoked, and routes are matched in the
 order they are defined).
 
+Notice that `serve` is just an event listener for the `request` event on
+`http.createServer`, so if you want a listener that does more than routing:
+
+    http.createServer(function(req, res)
+    {
+      //do middleware stuff before routing
+      serve.apply(this, arguments);
+      //do more stuff
+    }).listen(80);
+
 Easy to use.
 
 Understanding The Code
