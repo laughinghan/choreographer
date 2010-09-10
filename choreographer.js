@@ -57,6 +57,13 @@ exports.server = function()
   //they be interpreted as pattern-matching:
   var specialChars = /[|.+?{}()\[\]^$]/g;
 
+  //creating `get` routes automatically creates `head` routes:
+  routes.GET.push = function(route) //as called by `server.get()`
+  {
+    __Array_push.call(this, route);
+    routes.HEAD.push(route);
+  };
+
   //404 is a route too
   server.notFound = function(handler)
   {
