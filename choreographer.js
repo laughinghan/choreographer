@@ -80,7 +80,7 @@ var __Array_push = [].push; //Array.prototype.push, used by `server()`
 function defaultNotFound(req, res)
 {
   res.writeHead(404, { 'Content-Type': 'text/html' });
-  res.end('<html><head><title>Error 404: Not Found</title></head><body>' +
-    '<h1>Error 404: Not Found</h1>' +
-    '<p>Cannot ' + req.method + ' ' + req.url + '</body></html>');
+  res.end('<html><head><title>Error 404: Not Found</title></head><body>\n' +
+    '<h1>Error 404: Not Found</h1>\n' +
+    '<p>Cannot ' + req.method + ' ' + req.url + '</body></html>\n');
 }
