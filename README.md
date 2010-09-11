@@ -12,24 +12,25 @@ Usage
 
 Dirt simple:
 
-    var http = require('http'), server = require('choreographer').server();
+    var http = require('http'),
+      server = require('choreographer').server();
     
-    server.get('/chatroom/*/messages', function(request, response, room)
+    server.get('/chatroom/*/messages', function(req, res, room)
     {
-      response.writeHead(200, {'Content-Type': 'text/plain'});
-      response.end('No messages in ' + room + '.\n');
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('No messages in ' + room + '.\n');
     });
     
-    server.post('/chatroom/*/message', function(request, response, room)
+    server.post('/chatroom/*/message', function(req, res, room)
     {
-      response.writeHead(200, {'Content-Type': 'text/plain'});
-      response.end('Posted message to ' + room + '.\n');
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Posted message to ' + room + '.\n');
     });
     
-    server.notFound(function(request, response)
+    server.notFound(function(req, res)
     {
-      response.writeHead(404, {'Content-Type': 'text/plain'});
-      response.end('404: This server is just a skeleton for a chat server.\n' +
+      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.end('404: This server is just a skeleton for a chat server.\n' +
         'I\'m afraid ' + request.url + ' cannot be found here.\n');
     });
     
