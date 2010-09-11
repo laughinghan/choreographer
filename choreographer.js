@@ -14,16 +14,15 @@ exports.server = function()
   //routing server, to be passed to `require('http').createServer()`
   var server = function(req, res)
   {
-    var url = req.url, _routes = routes[req.method];
-    for(var route in _routes)
+    var url = req.url, _routes = routes[req.method], len = _routes.length;
+    for(var i = 0; i < len; i += 1)
     {
-      route = _routes[route]; //I don't want the damn index!
-
-      var matches = url.match(route);
-      if(matches) //say '/foo/asdf/jkl' has matched '/foo/*/*'
+      //say '/foo/bar/baz' matches '/foo/*/*'
+      var route = _routes[i], matches = route.exec(url);
+      if(matches) //then matches would be ['/foo/bar/baz','bar','baz']
       {
-        //then turn arguments from [req,res] into [req,res,'asdf','jkl']
-        __Array_push.apply(arguments, matches);
+        //so turn arguments from [req,res] into [req,res,'bar','baz']
+        __Array_push.apply(arguments, matches.slice(1));
         return route.callback.apply(this, arguments);
       }
     }
