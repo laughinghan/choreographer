@@ -48,8 +48,8 @@ exports.server = function()
         ignoreCase = server.ignoreCase;
       }
 
-      if(route instanceof RegExp) //if supplied route is already a RegExp,
-        route = new RegExp(route); //just clone it
+      if(route.constructor.name === 'RegExp') //instanceof fails between modules
+        route = new RegExp(route); //if route is already a RegExp, just clone it
       else //else stringify and interpret as regex where * matches URI segments
         route = new RegExp('^' + //and everything else matches literally
           String(route).replace(specialChars, '\\$&').replace('*', '([^/?#]*)')
