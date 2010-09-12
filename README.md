@@ -15,15 +15,6 @@ Dirt simple:
     var http = require('http'),
       server = require('choreographer').server();
     
-    server.get('/HelloWorld', function(req, res)
-    {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end('Hello, World!\n');
-    });
-    
-    server.ignoreCase = true;
-    //the '/HelloWorld' route will still be case-sensitive
-    
     server.get('/chatroom/*/messages', function(req, res, room)
     {
       res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -36,13 +27,6 @@ Dirt simple:
       res.end('Posted message to ' + room + '.\n');
     });
     
-    //option boolean flag overrides the above `ignoreCase`
-    server.get('/HelloAgainWorld', false, function(req, res)
-    {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end('Hello Again, World!\n');
-    });
-    
     server.notFound(function(req, res)
     {
       res.writeHead(404, {'Content-Type': 'text/plain'});
@@ -51,6 +35,24 @@ Dirt simple:
     });
     
     http.createServer(server).listen(80);
+
+You can easily make the routes case-insensitive:
+
+    server.get('/HelloWorld', function(req, res)
+    {
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Hello, World!\n');
+    });
+    
+    server.ignoreCase = true;
+    //the '/HelloWorld' route above will still be case-sensitive
+    
+    //boolean flag makes this route case-sensitive anyway
+    server.get('/HelloAgainWorld', false, function(req, res)
+    {
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Hello Again, World!\n');
+    });
 
 There's also `put`, `delete` and `head`, and that's it! That's the entire API,
 simple and easy to use.
