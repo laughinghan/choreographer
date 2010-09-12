@@ -15,6 +15,15 @@ Dirt simple:
     var http = require('http'),
       server = require('choreographer').server();
     
+    server.get('/HelloWorld', function(req, res)
+    {
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Hello, World!\n');
+    });
+    
+    server.ignoreCase = true;
+    //the '/HelloWorld' route will still be case-sensitive
+    
     server.get('/chatroom/*/messages', function(req, res, room)
     {
       res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -25,6 +34,13 @@ Dirt simple:
     {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('Posted message to ' + room + '.\n');
+    });
+    
+    //option boolean flag overrides the above `ignoreCase`
+    server.get('/HelloAgainWorld', false, function(req, res)
+    {
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Hello Again, World!\n');
     });
     
     server.notFound(function(req, res)

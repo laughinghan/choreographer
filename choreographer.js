@@ -40,14 +40,20 @@ exports.server = function()
     routes[method] = [];
 
     //e.g. server.get('/foo/*',function(req,res,bar){});
-    server[method.toLowerCase()] = function(route, callback)
+    server[method.toLowerCase()] = function(route, ignoreCase, callback)
     {
+      if(arguments.length === 2)
+      {
+        callback = ignoreCase;
+        ignoreCase = server.ignoreCase;
+      }
+
       if(route instanceof RegExp) //if supplied route is already a RegExp,
         route = new RegExp(route); //just clone it
       else //else stringify and interpret as regex where * matches URI segments
         route = new RegExp('^' + //and everything else matches literally
           String(route).replace(specialChars, '\\$&').replace('*', '([^/?#]*)')
-        + '(?:[?#].*)?$');
+        + '(?:[?#].*)?$', ignoreCase ? 'i' : '');
       route.callback = callback;
       routes[method].push(route);
     };
