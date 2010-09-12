@@ -31,7 +31,7 @@ Dirt simple:
     {
       res.writeHead(404, {'Content-Type': 'text/plain'});
       res.end('404: This server is just a skeleton for a chat server.\n' +
-        'I\'m afraid ' + request.url + ' cannot be found here.\n');
+        'I\'m afraid ' + req.url + ' cannot be found here.\n');
     });
     
     http.createServer(server).listen(80);
