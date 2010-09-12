@@ -36,7 +36,7 @@ Dirt simple:
     
     http.createServer(server).listen(80);
 
-There's also `head`, `put`, `delete`, and that's it! That's the entire API,
+There's also `put`, `delete` and `head`, and that's it! That's the entire API,
 simple and easy to use.
 
 As in Sinatra, routes are first-come, first-serve (only the callback for the

@@ -34,7 +34,7 @@ exports.server = function()
   var routes = {};
 
   //routing API
-  ['HEAD', 'GET', 'POST', 'PUT', 'DELETE']
+  ['GET', 'POST', 'PUT', 'DELETE', 'HEAD']
   .forEach(function(method)
   {
     routes[method] = [];
