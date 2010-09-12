@@ -54,6 +54,14 @@ You can easily make the routes case-insensitive:
       res.end('Hello Again, World!\n');
     });
 
+You can also pass in a regular expression as a route:
+
+    server.get(/^\/hw(\d+)$/i, function(req, res, hwNum)
+    {
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Homework '+hwNum+' isn\'t available yet.\n');
+    });
+
 There's also `put`, `delete` and `head`, and that's it! That's the entire API,
 simple and easy to use.
 
