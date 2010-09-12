@@ -7,6 +7,12 @@ easy to understand. Sinatra-style API.
 (This only being actively tested Node.js v0.2.0, but there's no reason it
 wouldn't work on anything else.)
 
+Install
+-------
+
+Get [npm](http://github.com/isaacs/npm#readme) if you don't already have it,
+and then just run `sudo npm install choreographer` (`sudo` may be unnecessary).
+
 Usage
 -----
 
