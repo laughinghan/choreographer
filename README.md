@@ -19,42 +19,42 @@ Usage
 Dirt simple:
 
     var http = require('http'),
-      server = require('choreographer').server();
+      router = require('choreographer').router();
     
-    server.get('/chatroom/*/messages', function(req, res, room)
+    router.get('/chatroom/*/messages', function(req, res, room)
     {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('No messages in ' + room + '.\n');
     });
     
-    server.post('/chatroom/*/message', function(req, res, room)
+    router.post('/chatroom/*/message', function(req, res, room)
     {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('Posted message to ' + room + '.\n');
     });
     
-    server.notFound(function(req, res)
+    router.notFound(function(req, res)
     {
       res.writeHead(404, {'Content-Type': 'text/plain'});
       res.end('404: This server is just a skeleton for a chat server.\n' +
         'I\'m afraid ' + req.url + ' cannot be found here.\n');
     });
     
-    http.createServer(server).listen(80);
+    http.createServer(router).listen(80);
 
 You can easily make the routes case-insensitive:
 
-    server.get('/HelloWorld', function(req, res)
+    router.get('/HelloWorld', function(req, res)
     {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('Hello, World!\n');
     });
     
-    server.ignoreCase = true;
+    router.ignoreCase = true;
     //the '/HelloWorld' route above will still be case-sensitive
     
     //boolean flag makes this route case-sensitive anyway
-    server.get('/HelloAgainWorld', false, function(req, res)
+    router.get('/HelloAgainWorld', false, function(req, res)
     {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('Hello Again, World!\n');
@@ -62,7 +62,7 @@ You can easily make the routes case-insensitive:
 
 You can also pass in a regular expression as a route:
 
-    server.get(/^\/hw(\d+)$/i, function(req, res, hwNum)
+    router.get(/^\/hw(\d+)$/i, function(req, res, hwNum)
     {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('Homework '+hwNum+' isn\'t available yet.\n');
@@ -76,13 +76,13 @@ first route to be matched by a request is invoked, and routes are matched in the
 order they are defined). Also as in Sinatra, creating `get` routes automatically
 creates `head` routes.
 
-Notice that `server` is just an event listener for the `request` event on
+Notice that `router` is just an event listener for the `request` event on
 `http.createServer`, so if you want a listener that does more than routing:
 
     http.createServer(function(req, res)
     {
       //do middleware stuff before routing
-      server.apply(this, arguments);
+      router.apply(this, arguments);
       //do more stuff
     }).listen(80);
 
