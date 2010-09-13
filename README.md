@@ -42,23 +42,19 @@ Dirt simple:
     
     http.createServer(router).listen(80);
 
-You can easily make the routes case-insensitive:
+You can easily make routes case-insensitive with the optional `ignoreCase` flag:
 
-    router.get('/HelloWorld', function(req, res)
+    router.get('/HelloWorld', true, function(req, res)
     {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('Hello, World!\n');
     });
-    
+
+Routes default to case-sensitive without the flag, but you can change that:
+
+    //routes defined up until now defaulted to case-sensitive if flag omitted
     router.ignoreCase = true;
-    //the '/HelloWorld' route above will still be case-sensitive
-    
-    //boolean flag makes this route case-sensitive anyway
-    router.get('/HelloAgainWorld', false, function(req, res)
-    {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end('Hello Again, World!\n');
-    });
+    //routes defined following default to case-insensitive if flag omitted
 
 You can also pass in a regular expression as a route:
 
