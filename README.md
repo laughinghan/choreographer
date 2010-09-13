@@ -89,8 +89,8 @@ Notice that `server` is just an event listener for the `request` event on
 Understanding The Code
 ----------------------
 
-The code is just as simple: starts out with shortcuts, then a basic routing
-server, and finally the routes. Lightweight and easy to understand.
+The code is just as simple: first half is the router, second half is the routes.
+Lightweight and easy to understand.
 
 The entire architecture is designed around the philosophy of being so simple
 it obviously has no bugs, rather than so complicated it has no obvious bugs.
