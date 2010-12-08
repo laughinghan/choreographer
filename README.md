@@ -11,7 +11,7 @@ Install
 -------
 
 Get [npm](http://github.com/isaacs/npm#readme) if you don't already have it,
-and then just run `sudo npm install choreographer` (`sudo` may be unnecessary).
+and then just run `npm install choreographer`.
 
 Usage
 -----
