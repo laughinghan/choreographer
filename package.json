@@ -1,6 +1,6 @@
 {
   "name": "choreographer",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Your server is my stage -- dirt simple URL routing for Node.js. Easy to use, easy to understand. Sinatra-style API.",
   "homepage": "http://github.com/laughinghan/choreographer#readme",
   "author": "Han <laughinghan@gmail.com> (http://github.com/laughinghan)",
