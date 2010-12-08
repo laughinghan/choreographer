@@ -25,15 +25,13 @@ Dirt simple:
     {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('No messages in ' + room + '.\n');
-    });
-    
-    router.post('/chatroom/*/message', function(req, res, room)
+    })
+    .post('/chatroom/*/message', function(req, res, room)
     {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('Posted message to ' + room + '.\n');
-    });
-    
-    router.notFound(function(req, res)
+    })
+    .notFound(function(req, res)
     {
       res.writeHead(404, {'Content-Type': 'text/plain'});
       res.end('404: This server is just a skeleton for a chat server.\n' +

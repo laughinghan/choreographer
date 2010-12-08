@@ -59,6 +59,8 @@ exports.router = function()
         + '(?:[?#].*)?$', ignoreCase ? 'i' : '');
       route.callback = callback;
       routes[method].push(route);
+
+      return this;
     };
   });
   //special characters that need to be escaped when passed to `RegExp()`, lest
