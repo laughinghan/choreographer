@@ -7,7 +7,7 @@
  * http://github.com/laughinghan/choreographer
  *
  */
-
+var sys = require('sys');
 var parse = require('url').parse;
 
 //creates router
@@ -29,6 +29,7 @@ exports.router = function()
         return route.callback.apply(this, arguments);
       }
     }
+    
     //route not found: no route has matched and hence returned yet
     notFoundHandler.apply(this, arguments);
   };
@@ -55,7 +56,7 @@ exports.router = function()
         route = new RegExp(route); //if route is already a RegExp, just clone it
       else //else stringify and interpret as regex where * matches URI segments
         route = new RegExp('^' + //and everything else matches literally
-          String(route).replace(specialChars, '\\$&').replace('*', '([^/?#]*)')
+          String(route).replace(specialChars, '\\$&').replace(/\*/g, '([^/?#]*)') // replace all occurences 
         + '(?:[?#].*)?$', ignoreCase ? 'i' : '');
       route.callback = callback;
       routes[method].push(route);
