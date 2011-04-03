@@ -40,7 +40,7 @@ Dirt simple:
     
     http.createServer(router).listen(80);
 
-You can easily make routes case-insensitive with the optional `ignoreCase` flag:
+Routes are easily made case-insensitive with the optional `ignoreCase` flag:
 
     router.get('/HelloWorld', true, function(req, res)
     {
@@ -50,7 +50,7 @@ You can easily make routes case-insensitive with the optional `ignoreCase` flag:
 
 Routes default to case-sensitive without the flag, but you can change that:
 
-    //routes defined up until now defaulted to case-sensitive if flag omitted
+    //routes defined up 'til now defaulted to case-sensitive if flag omitted
     router.ignoreCase = true;
     //routes defined following default to case-insensitive if flag omitted
 
@@ -62,13 +62,13 @@ You can also pass in a regular expression as a route:
       res.end('Homework '+hwNum+' isn\'t available yet.\n');
     });
 
-There's also `put`, `delete` and `head`, and that's it! That's the entire API,
-simple and easy to use.
+There's also `put`, `delete` and `head`, and that's it! That's the entire
+API, simple and easy to use.
 
 As in Sinatra, routes are first-come, first-serve (only the callback for the
-first route to be matched by a request is invoked, and routes are matched in the
-order they are defined). Also as in Sinatra, creating `get` routes automatically
-creates `head` routes.
+first route to be matched by a request is invoked, and routes are matched in
+the order they are defined). Also as in Sinatra, creating `get` routes
+automatically creates `head` routes.
 
 Notice that `router` is just an event listener for the `request` event on
 `http.createServer`, so if you want a listener that does more than routing:
@@ -83,8 +83,8 @@ Notice that `router` is just an event listener for the `request` event on
 Understanding The Code
 ----------------------
 
-The code is just as simple: first half is the router, second half is the routes.
-Lightweight and easy to understand.
+The code is just as simple: first half is the router, second half is the
+routes. Lightweight and easy to understand.
 
 The entire architecture is designed around the philosophy of being so simple
 it obviously has no bugs, rather than so complicated it has no obvious bugs.
