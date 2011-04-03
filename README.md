@@ -4,8 +4,7 @@ Choreographer
 Your server is my stage -- dirt simple URL routing for Node.js. Easy to use,
 easy to understand. Sinatra-style API.
 
-(This only being actively tested Node.js v0.2.0, but there's no reason it
-wouldn't work on anything else.)
+(This has been tested up to Node.js v0.4.5.)
 
 Install
 -------
