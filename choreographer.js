@@ -78,6 +78,7 @@ exports.router = function()
   router.notFound = function(handler)
   {
     notFoundHandler = handler;
+    return this;
   };
 
   //handles requests where no matching route is found
