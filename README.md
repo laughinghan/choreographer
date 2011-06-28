@@ -50,7 +50,14 @@ Routes default to case-sensitive without the flag, but you can change that:
     router.ignoreCase = true;
     //routes defined following default to case-insensitive if flag omitted
 
-You can also pass in a regular expression as a route:
+A star `*` in a route matches anything up to a slash `/`, but if you want to
+match slashes too you can simply use two stars `**`:
+
+    router.get('/static/**', function(req, res, path) {
+      serveStaticFiles(path); //path could be 'file.ext' or 'folders/file.ext'
+    });
+
+Most flexibly, regular expressions may also be used as routes:
 
     router.get(/^\/hw(\d+)$/i, function(req, res, hwNum) {
       res.writeHead(200, {'Content-Type': 'text/plain'});

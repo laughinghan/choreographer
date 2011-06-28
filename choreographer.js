@@ -48,8 +48,13 @@ exports.router = function() {
         route = new RegExp(route); //if route is already a RegExp, just clone it
       else //else stringify and interpret as regex where * matches URI segments
         route = new RegExp('^' + //and everything else matches literally
-          String(route).replace(specialChars, '\\$&').replace(/\*/g, '([^/?#]*)')
-        + '(?:[?#].*)?$', ignoreCase ? 'i' : '');
+          String(route)
+            .replace(specialChars, '\\$&')
+            .replace(/\*\*/g, '(.*)')
+            .replace(/\*/g, '([^/]*)') +
+          '$',
+          ignoreCase ? 'i' : ''
+        );
       route.callback = callback;
       routes[method].push(route);
 
