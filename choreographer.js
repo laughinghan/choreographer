@@ -11,19 +11,15 @@
 var parse = require('url').parse;
 
 //creates router
-exports.router = function()
-{
+exports.router = function() {
   //router, to be passed to `require('http').createServer()`
-  var router = function(req, res)
-  {
+  var router = function(req, res) {
     var path = parse(req.url).pathname, _routes = routes[req.method],
       len = _routes.length;
-    for(var i = 0; i < len; i += 1)
-    {
+    for(var i = 0; i < len; i += 1) {
       //say '/foo/bar/baz' matches '/foo/*/*'
       var route = _routes[i], matches = route.exec(path);
-      if(matches) //then matches would be ['/foo/bar/baz','bar','baz']
-      {
+      if(matches) { //then matches would be ['/foo/bar/baz','bar','baz']
         //so turn arguments from [req,res] into [req,res,'bar','baz']
         __Array_push.apply(arguments, matches.slice(1));
         return route.callback.apply(this, arguments);
@@ -38,15 +34,12 @@ exports.router = function()
 
   //routing API
   ['GET', 'POST', 'PUT', 'DELETE', 'HEAD']
-  .forEach(function(method)
-  {
+  .forEach(function(method) {
     routes[method] = [];
 
     //e.g. router.get('/foo/*',function(req,res,bar){});
-    router[method.toLowerCase()] = function(route, ignoreCase, callback)
-    {
-      if(arguments.length === 2)
-      {
+    router[method.toLowerCase()] = function(route, ignoreCase, callback) {
+      if(arguments.length === 2) {
         callback = ignoreCase;
         ignoreCase = router.ignoreCase;
       }
@@ -68,15 +61,13 @@ exports.router = function()
   var specialChars = /[|.+?{}()\[\]^$]/g;
 
   //creating `get` routes automatically creates `head` routes:
-  routes.GET.push = function(route) //as called by `router.get()`
-  {
+  routes.GET.push = function(route) { //as called by `router.get()`
     __Array_push.call(this, route);
     routes.HEAD.push(route);
   };
 
   //404 is a route too
-  router.notFound = function(handler)
-  {
+  router.notFound = function(handler) {
     notFoundHandler = handler;
     return this;
   };
@@ -88,8 +79,7 @@ exports.router = function()
 };
 var __Array_push = [].push; //Array.prototype.push, used by `router()`
 
-function defaultNotFound(req, res)
-{
+function defaultNotFound(req, res) {
   res.writeHead(404, { 'Content-Type': 'text/html' });
   res.end('<html><head><title>Error 404: Not Found</title></head><body>\n' +
     '<h1>Error 404: Not Found</h1>\n' +

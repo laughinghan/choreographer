@@ -21,18 +21,15 @@ Dirt simple:
     var http = require('http'),
       router = require('choreographer').router();
     
-    router.get('/chatroom/*/messages', function(req, res, room)
-    {
+    router.get('/chatroom/*/messages', function(req, res, room) {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('No messages in ' + room + '.\n');
     })
-    .post('/chatroom/*/message', function(req, res, room)
-    {
+    .post('/chatroom/*/message', function(req, res, room) {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('Posted message to ' + room + '.\n');
     })
-    .notFound(function(req, res)
-    {
+    .notFound(function(req, res) {
       res.writeHead(404, {'Content-Type': 'text/plain'});
       res.end('404: This server is just a skeleton for a chat server.\n' +
         'I\'m afraid ' + req.url + ' cannot be found here.\n');
@@ -42,8 +39,7 @@ Dirt simple:
 
 Routes are easily made case-insensitive with the optional `ignoreCase` flag:
 
-    router.get('/HelloWorld', true, function(req, res)
-    {
+    router.get('/HelloWorld', true, function(req, res) {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('Hello, World!\n');
     });
@@ -56,8 +52,7 @@ Routes default to case-sensitive without the flag, but you can change that:
 
 You can also pass in a regular expression as a route:
 
-    router.get(/^\/hw(\d+)$/i, function(req, res, hwNum)
-    {
+    router.get(/^\/hw(\d+)$/i, function(req, res, hwNum) {
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('Homework '+hwNum+' isn\'t available yet.\n');
     });
@@ -73,8 +68,7 @@ automatically creates `head` routes.
 Notice that `router` is just an event listener for the `request` event on
 `http.createServer`, so if you want a listener that does more than routing:
 
-    http.createServer(function(req, res)
-    {
+    http.createServer(function(req, res) {
       //do middleware stuff before routing
       router.apply(this, arguments);
       //do more stuff
