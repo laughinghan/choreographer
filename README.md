@@ -85,7 +85,9 @@ Http GET arguments (given through ?argument=something behind the URL) are
 passed through to callbacks through a last argument. That argument will be
 an object with the arguments as properties. They can be accessed through dot
 or [] notation. Eg: args['username'] or args.foobar.
+
     function(req, res, [arg1, arg2 ...], args){ }
+
 You can safely ignore the args if you do not wish to use them.
 
 Understanding The Code
