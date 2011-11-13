@@ -22,6 +22,16 @@ exports.router = function() {
       if(matches) { //then matches would be ['/foo/bar/baz','bar','baz']
         //so turn arguments from [req,res] into [req,res,'bar','baz']
         __Array_push.apply(arguments, matches.slice(1));
+        
+        //parse the query's arguments
+        args = [];
+        url.query && url.query.split(',').forEach(function(pairs){
+            pairsplit = pairs.split('=');
+            args[pairsplit[0]] = pairsplit[1];
+        });
+        //and append that to the arguments
+        arguments[arguments.length] = args;
+
         return route.callback.apply(this, arguments);
       }
     }
