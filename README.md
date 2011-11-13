@@ -81,10 +81,12 @@ Notice that `router` is just an event listener for the `request` event on
       //do more stuff
     }).listen(80);
     
-Http standard arguments given through ?argument=something behind any URL are
-passed through to callbacks through a last argument.
+Http GET arguments (given through ?argument=something behind the URL) are
+passed through to callbacks through a last argument. That argument will be
+an object with the arguments as properties. They can be accessed through dot
+or [] notation. Eg: args['username'] or args.foobar.
     function(req, res, [arg1, arg2 ...], args){ }
-Ignoring this isn't a problem.
+You can safely ignore the args if you do not wish to use them.
 
 Understanding The Code
 ----------------------
