@@ -75,11 +75,16 @@ automatically creates `head` routes.
 Notice that `router` is just an event listener for the `request` event on
 `http.createServer`, so if you want a listener that does more than routing:
 
-    http.createServer(function(req, res) {
+    http.createServer(function(req, res, args) {
       //do middleware stuff before routing
       router.apply(this, arguments);
       //do more stuff
     }).listen(80);
+    
+Http standard arguments given through ?argument=something behind any URL are
+passed through to callbacks through a last argument.
+    function(req, res, [arg1, arg2 ...], args){ }
+Ignoring this isn't a problem.
 
 Understanding The Code
 ----------------------
