@@ -25,7 +25,7 @@ exports.router = function() {
         
         //parse the query's arguments
         args = [];
-        url.query && url.query.split(',').forEach(function(pairs){
+        url.query && url.query.split('&').forEach(function(pairs){
             pairsplit = pairs.split('=');
             args[pairsplit[0]] = pairsplit[1];
         });
