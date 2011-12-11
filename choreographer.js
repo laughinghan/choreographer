@@ -30,7 +30,7 @@ exports.router = function() {
             args[pairsplit[0]] = pairsplit[1];
         });
         //and append that to the arguments
-        arguments[arguments.length] = args;
+        __Array_push.apply(arguments, [args]);
 
         return route.callback.apply(this, arguments);
       }
