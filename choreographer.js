@@ -13,20 +13,31 @@ var parse = require('url').parse;
 //creates router
 exports.router = function() {
   //router, to be passed to `require('http').createServer()`
-  var router = function(req, res) {
-    var path = parse(req.url).pathname, _routes = routes[req.method];
-  if(_routes != undefined){
-		len = _routes.length;
-		for(var i = 0; i < len; i += 1) {
-		  //say '/foo/bar/baz' matches '/foo/*/*'
-		  var route = _routes[i], matches = route.exec(path);
-		  if(matches) { //then matches would be ['/foo/bar/baz','bar','baz']
-			//so turn arguments from [req,res] into [req,res,'bar','baz']
-			__Array_push.apply(arguments, matches.slice(1));
-			return route.callback.apply(this, arguments);
-		  }
-		}
-	}
+  var router = function(req, res)
+  {
+    var url = parse(req.url), _routes = routes[req.method],
+      len = _routes.length;
+    for(var i = 0; i < len; i += 1)
+    {
+      //say '/foo/bar/baz' matches '/foo/*/*'
+      var route = _routes[i], matches = route.exec(url.pathname);
+      if(matches) //then matches would be ['/foo/bar/baz','bar','baz']
+      {
+        //so turn arguments from [req,res] into [req,res,'bar','baz']
+        __Array_push.apply(arguments, matches.slice(1));
+        
+        //parse the query's arguments
+        args = [];
+        url.query && url.query.split('&').forEach(function(pairs){
+                pairsplit = pairs.split('=');
+                args[pairsplit[0]] = pairsplit[1];
+        });
+        //and append that to the arguments
+                __Array_push.apply(arguments, [args]);
+        
+                return route.callback.apply(this, arguments);
+      }
+    }
     //route not found: no route has matched and hence returned yet
     notFoundHandler.apply(this, arguments);
   };
