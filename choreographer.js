@@ -52,8 +52,8 @@ exports.router = function() {
         route = new RegExp('^' + //and everything else matches literally
           String(route)
             .replace(specialChars, '\\$&')
-            .replace(/\*\*/g, '(.*)')
-            .replace(/\*/g, '([^/]*)') +
+            .replace(/\*\*/g, '(.+)')
+            .replace(/\*/g, '([^/]+)') +
           '$',
           ignoreCase ? 'i' : ''
         );
