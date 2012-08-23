@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/laughinghan/choreographer.png)](http://travis-ci.org/laughinghan/choreographer)
 Choreographer
 =============
 
