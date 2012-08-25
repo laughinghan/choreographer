@@ -15,7 +15,7 @@ exports.router = function() {
   //router, to be passed to `require('http').createServer()`
   var router = function(req, res) {
     var path = parse(req.url).pathname, routesForMethod = routes[req.method];
-    if (routesForMethod != undefined) {
+    if (routesForMethod) {
       var len = routesForMethod.length;
       for (var i = 0; i < len; i += 1) {
         //say '/foo/bar/baz' matches '/foo/*/*'
