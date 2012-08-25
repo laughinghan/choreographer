@@ -16,9 +16,9 @@ exports.router = function() {
   var router = function(req, res) {
     if (!(req.parsedUrl && 'pathname' in req.parsedUrl))
       req.parsedUrl = parse(req.url);
-    var path = req.parsedUrl.pathname, routesForMethod = routes[req.method];
-    if (routesForMethod) {
-      var len = routesForMethod.length;
+    if (req.method in routes) {
+      var path = req.parsedUrl.pathname, routesForMethod = routes[req.method],
+        len = routesForMethod.length;
       for (var i = 0; i < len; i += 1) {
         //say '/foo/bar/baz' matches '/foo/*/*'
         var route = routesForMethod[i], matches = route.exec(path);
