@@ -53,7 +53,8 @@ exports.router = function() {
           + String(route)
             .replace(specialChars, '\\$&')
             .replace(/\*\*/g, '(.*)')
-            .replace(/\*/g, '([^/]*)')
+            .replace(/\*(?!\))/g, '([^/]*)') //negative lookahead so as not to
+                                             //replace the '*' in '(.*)'
           + '$',
           ignoreCase ? 'i' : ''
         );
