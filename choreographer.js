@@ -15,12 +15,12 @@ exports.router = function() {
   //router, to be passed to `require('http').createServer()`
   var router = function(req, res) {
     var path = parse(req.url).pathname, _routes = routes[req.method];
-    if(_routes != undefined){
+    if (_routes != undefined) {
       len = _routes.length;
-      for(var i = 0; i < len; i += 1) {
+      for (var i = 0; i < len; i += 1) {
         //say '/foo/bar/baz' matches '/foo/*/*'
         var route = _routes[i], matches = route.exec(path);
-        if(matches) { //then matches would be ['/foo/bar/baz','bar','baz']
+        if (matches) { //then matches would be ['/foo/bar/baz','bar','baz']
           //so turn arguments from [req,res] into [req,res,'bar','baz']
           __Array_push.apply(arguments, matches.slice(1));
           return route.callback.apply(this, arguments);
@@ -41,12 +41,12 @@ exports.router = function() {
 
     //e.g. router.get('/foo/*',function(req,res,bar){});
     router[method.toLowerCase()] = function(route, ignoreCase, callback) {
-      if(arguments.length === 2) {
+      if (arguments.length === 2) {
         callback = ignoreCase;
         ignoreCase = router.ignoreCase;
       }
 
-      if(route.constructor.name === 'RegExp') //instanceof fails between modules
+      if (route.constructor.name === 'RegExp') //instanceof fails between modules
         route = new RegExp(route); //if route is already a RegExp, just clone it
       else //else stringify and interpret as regex where * matches URI segments
         route = new RegExp('^' //and everything else matches literally
