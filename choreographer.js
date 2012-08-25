@@ -14,12 +14,12 @@ var parse = require('url').parse;
 exports.router = function() {
   //router, to be passed to `require('http').createServer()`
   var router = function(req, res) {
-    var path = parse(req.url).pathname, _routes = routes[req.method];
-    if (_routes != undefined) {
-      var len = _routes.length;
+    var path = parse(req.url).pathname, routesForMethod = routes[req.method];
+    if (routesForMethod != undefined) {
+      var len = routesForMethod.length;
       for (var i = 0; i < len; i += 1) {
         //say '/foo/bar/baz' matches '/foo/*/*'
-        var route = _routes[i], matches = route.exec(path);
+        var route = routesForMethod[i], matches = route.exec(path);
         if (matches) { //then matches would be ['/foo/bar/baz','bar','baz']
           //so turn arguments from [req,res] into [req,res,'bar','baz']
           __Array_push.apply(arguments, matches.slice(1));
