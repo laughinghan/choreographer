@@ -5,7 +5,9 @@
   "homepage": "http://github.com/laughinghan/choreographer#readme",
   "author": "Han <laughinghan@gmail.com> (http://github.com/laughinghan)",
   "main": "./choreographer",
-  "engines": ["node"],
+  "engines": {
+    "node": ">=0.2.0"
+  },
   "repository" : { 
       "type" : "git",
       "url" : "https://github.com/laughinghan/choreographer.git"
