@@ -64,13 +64,23 @@ Most flexibly, regular expressions may also be used as routes:
       res.end('Homework '+hwNum+' isn\'t available yet.\n');
     });
 
-There's also `put`, `delete` and `head`, and that's it! That's the entire
-API, simple and easy to use.
+There's also `put`, `delete`, `head`, `trace`, `options`, and `connect`, and
+that's it! That's the entire API, short and sweet.
 
 As in Sinatra, routes are first-come, first-serve (only the callback for the
 first route to be matched by a request is invoked, and routes are matched in
 the order they are defined). Also as in Sinatra, creating `get` routes
 automatically creates `head` routes.
+
+Choreographer has to [parse][] the URL to match the routes (obviously). For
+convenience, the `.parsedUrl` property on the [http.ServerRequest][req] object
+is set to the [parsed URL object][parsedURL] so you needn't re-parse the URL
+(unless that property is already set to a parsed URL object, in which case,
+Choreographer will just use that object).
+
+[parse]: http://nodejs.org/api/url.html#url_url_parse_urlstr_parsequerystring_slashesdenotehost
+[req]: http://nodejs.org/api/http.html#http_class_http_serverrequest
+[parsedURL]: http://nodejs.org/api/url.html#url_url
 
 Notice that `router` is just an event listener for the `request` event on
 `http.createServer`, so if you want a listener that does more than routing:
